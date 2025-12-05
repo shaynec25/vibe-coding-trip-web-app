@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
-import { CalendarDays, Wallet, ClipboardCheck, Globe, Compass } from 'lucide-react';
+import { CalendarDays, Wallet, ClipboardCheck, Globe, Compass, Settings } from 'lucide-react';
 import ScheduleView from './components/ScheduleView';
 import ExpenseView from './components/ExpenseView';
 import PrepView from './components/PrepView';
 import CandidatesView from './components/CandidatesView';
+import SettingsView from './components/SettingsView';
 import { APP_DATA, UI_LABELS } from './constants';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'schedule' | 'expenses' | 'prep' | 'candidates'>('schedule');
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
+  const [showSettings, setShowSettings] = useState(false);
+  
+  // Data Source Settings (Default: Static)
+  const [dataSource, setDataSource] = useState<'static' | 'csv'>('static');
 
   const currentData = APP_DATA[lang];
   const currentLabels = UI_LABELS[lang];
-
-  const toggleLang = () => {
-    setLang(prev => prev === 'zh' ? 'en' : 'zh');
-  };
 
   return (
     <div className="min-h-screen max-w-md mx-auto bg-[#F2F2F2] shadow-2xl overflow-hidden relative">
@@ -28,11 +29,10 @@ const App: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="text-[#A9BF5A] text-[10px] font-medium opacity-90">{currentData.tripInfo.dates}</span>
             <button 
-              onClick={toggleLang}
-              className="flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-2 py-0.5 rounded-md text-[10px] transition-colors backdrop-blur-sm"
+              onClick={() => setShowSettings(true)}
+              className="flex items-center justify-center bg-white/20 hover:bg-white/30 text-white w-8 h-8 rounded-full transition-colors backdrop-blur-sm"
             >
-              <Globe size={10} />
-              {lang === 'zh' ? 'EN' : '中文'}
+              <Settings size={16} />
             </button>
           </div>
         </div>
@@ -42,7 +42,11 @@ const App: React.FC = () => {
       <main className="bg-[#F2F2F2] min-h-[calc(100vh-110px)]">
         
         {activeTab === 'schedule' && (
-          <ScheduleView data={currentData} labels={currentLabels} />
+          <ScheduleView 
+            data={currentData} 
+            labels={currentLabels} 
+            dataSource={dataSource} 
+          />
         )}
 
         {activeTab === 'expenses' && (
@@ -58,12 +62,29 @@ const App: React.FC = () => {
         )}
       </main>
 
+      {/* Settings Modal */}
+      {showSettings && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in" onClick={() => setShowSettings(false)}></div>
+              <div className="relative z-10 w-full flex justify-center">
+                  <SettingsView 
+                      dataSource={dataSource}
+                      setDataSource={setDataSource}
+                      lang={lang}
+                      setLang={setLang}
+                      labels={currentLabels}
+                      onClose={() => setShowSettings(false)}
+                  />
+              </div>
+          </div>
+      )}
+
       {/* Bottom Navigation - Ultra Compact */}
       <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-[#A9BF5A]/30 flex justify-around py-1.5 pb-4 z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         
         <button 
           onClick={() => setActiveTab('schedule')}
-          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-12 transition-all ${activeTab === 'schedule' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
+          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-16 transition-all ${activeTab === 'schedule' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
         >
           <CalendarDays size={20} strokeWidth={activeTab === 'schedule' ? 2.5 : 2} />
           <span className="text-[10px] scale-90">{currentLabels.tabSchedule}</span>
@@ -71,7 +92,7 @@ const App: React.FC = () => {
 
         <button 
           onClick={() => setActiveTab('candidates')}
-          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-12 transition-all ${activeTab === 'candidates' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
+          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-16 transition-all ${activeTab === 'candidates' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
         >
           <Compass size={20} strokeWidth={activeTab === 'candidates' ? 2.5 : 2} />
           <span className="text-[10px] scale-90">{currentLabels.tabCandidates}</span>
@@ -79,7 +100,7 @@ const App: React.FC = () => {
 
         <button 
           onClick={() => setActiveTab('expenses')}
-          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-12 transition-all ${activeTab === 'expenses' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
+          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-16 transition-all ${activeTab === 'expenses' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
         >
           <Wallet size={20} strokeWidth={activeTab === 'expenses' ? 2.5 : 2} />
           <span className="text-[10px] scale-90">{currentLabels.tabExpenses}</span>
@@ -87,7 +108,7 @@ const App: React.FC = () => {
 
         <button 
           onClick={() => setActiveTab('prep')}
-          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-12 transition-all ${activeTab === 'prep' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
+          className={`flex flex-col items-center gap-0 p-1 rounded-xl w-16 transition-all ${activeTab === 'prep' ? 'text-[#3A591C] font-bold' : 'text-slate-400 hover:text-[#678C30]'}`}
         >
           <ClipboardCheck size={20} strokeWidth={activeTab === 'prep' ? 2.5 : 2} />
           <span className="text-[10px] scale-90">{currentLabels.tabPrep}</span>

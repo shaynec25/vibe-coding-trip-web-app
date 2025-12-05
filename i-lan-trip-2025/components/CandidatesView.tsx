@@ -123,16 +123,6 @@ const CandidatesView: React.FC<Props> = ({ labels }) => {
 
   return (
     <div className="p-4 pb-24 animate-fade-in min-h-full">
-         <div className="mb-6 bg-[#3A591C] text-white p-6 rounded-2xl shadow-lg">
-            <h2 className="text-xl font-bold flex items-center gap-2 mb-2">
-                <Compass />
-                {labels.candidatesTitle}
-            </h2>
-            <p className="text-[#F2F2F2] text-sm whitespace-pre-line">
-                {labels.candidatesDesc}
-            </p>
-        </div>
-
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6">
             <button 

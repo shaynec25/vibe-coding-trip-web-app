@@ -13,6 +13,7 @@ import {
 interface Props {
   data: TripData;
   labels: UILabels;
+  dataSource: 'static' | 'csv'; // Controlled by parent
 }
 
 // Icon Mapping
@@ -99,13 +100,20 @@ const parseCSV = (text: string): string[][] => {
   return rows;
 };
 
-const ScheduleView: React.FC<Props> = ({ data, labels }) => {
+const ScheduleView: React.FC<Props> = ({ data, labels, dataSource }) => {
   const [activeDay, setActiveDay] = useState<1 | 2>(1);
   const [scheduleItems, setScheduleItems] = useState<ScheduleItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
   const isConfigured = SCHEDULE_CSV_URL && SCHEDULE_CSV_URL.length > 0;
+
+  const loadStaticData = () => {
+      const d1 = data.day1.map(i => ({ ...i, day: '1' }));
+      const d2 = data.day2.map(i => ({ ...i, day: '2' }));
+      setScheduleItems([...d1, ...d2]);
+      setError('');
+  };
 
   const fetchSchedule = async () => {
     if (!isConfigured) return;
@@ -117,6 +125,7 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
       if (!response.ok) throw new Error('Network error');
       
       const text = await response.text();
+      
       const rawRows = parseCSV(text);
       
       if (rawRows.length < 2) {
@@ -196,22 +205,19 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
 
     } catch (e) {
       console.error("Failed to fetch schedule CSV", e);
-      setError('讀取失敗，請確認 CSV 格式與連結。');
+      setError('讀取失敗，請確認設定頁面的 CSV 連結。');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (isConfigured) {
+    if (dataSource === 'csv' && isConfigured) {
         fetchSchedule();
     } else {
-        // Load Static Data if no CSV configured
-        const d1 = data.day1.map(i => ({ ...i, day: '1' }));
-        const d2 = data.day2.map(i => ({ ...i, day: '2' }));
-        setScheduleItems([...d1, ...d2]);
+        loadStaticData();
     }
-  }, [isConfigured, data]);
+  }, [dataSource, isConfigured, data]); // Refresh when settings or language changes
 
   // Filter items for view
   const currentDayItems = scheduleItems.filter(item => Number(item.day) === activeDay);
@@ -255,11 +261,6 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
                     <p className="mb-2 font-bold text-slate-600">
                         {error ? error : "尚無行程資料"}
                     </p>
-                    {!isConfigured && (
-                        <p className="text-xs text-slate-400 mb-4">
-                            內建行程資料似乎未載入。<br/>請檢查程式碼或設定 CSV 來源。
-                        </p>
-                    )}
                     {isConfigured && (
                         <button onClick={fetchSchedule} className="bg-[#A9BF5A] text-white px-4 py-2 rounded-lg shadow-sm text-sm font-bold flex items-center gap-2 mx-auto">
                            <RefreshCw size={14} /> 重新讀取
@@ -269,9 +270,13 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
              </div>
         ) : (
           <div>
-            <div className="bg-[#A9BF5A]/20 p-2 text-center text-[#3A591C] text-xs font-bold border-b border-[#A9BF5A]/30 flex justify-center items-center gap-2">
-               {activeDay === 1 ? labels.day1Header : labels.day2Header}
-               {isConfigured && <button onClick={fetchSchedule} className="text-[#3A591C]/50 hover:text-[#3A591C]" title="重新讀取"><RefreshCw size={12}/></button>}
+            <div className="bg-[#A9BF5A]/20 p-2 px-3 text-[#3A591C] text-xs font-bold border-b border-[#A9BF5A]/30 flex justify-between items-center gap-2">
+               <span className="flex-1 text-center">{activeDay === 1 ? labels.day1Header : labels.day2Header}</span>
+               {dataSource === 'csv' && (
+                  <button onClick={fetchSchedule} className="text-[#3A591C]/50 hover:text-[#3A591C]" title="重新讀取">
+                    <RefreshCw size={12}/>
+                  </button>
+               )}
              </div>
             <DayView 
               schedule={currentDayItems} 

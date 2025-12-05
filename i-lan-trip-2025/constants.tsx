@@ -26,7 +26,7 @@ import { ScheduleItem, HikingGuideData, ChecklistCategory } from "./types";
 // 這些變數將由 GitHub Secrets 在打包時注入，或在本地開發時由 .env 檔案提供
 const env = (import.meta as any).env || {};
 export const GOOGLE_SCRIPT_URL = env.VITE_GOOGLE_SCRIPT_URL || ""; 
-export const SCHEDULE_CSV_URL = env.VITE_SCHEDULE_CSV_URL || "https://docs.google.com/spreadsheets/d/e/2PACX-1vTJNXk6dMtNNxWFxFYBL23Na02nVCCvTgexTEyMwt21CgWmZdL4QD7PhH-2xZIw4_RigheDC05-ye53/pub?gid=0&single=true&output=csv";
+export const SCHEDULE_CSV_URL = env.VITE_SCHEDULE_CSV_URL || "";
 export const CANDIDATES_CSV_URL = env.VITE_CANDIDATES_CSV_URL || ""; 
 
 // --- Types for Data Structure ---
@@ -44,7 +44,13 @@ export interface UILabels {
   tabSchedule: string;
   tabExpenses: string;
   tabPrep: string;
-  tabCandidates: string; // New Tab Label
+  tabCandidates: string; 
+  // Settings Labels
+  settingsTitle: string;
+  settingsLanguage: string;
+  settingsDataSource: string;
+  settingsClose: string;
+  
   day1Label: string;
   day2Label: string;
   day1Header: string;
@@ -379,6 +385,11 @@ const LABELS_ZH: UILabels = {
   tabExpenses: "分帳",
   tabPrep: "準備",
   tabCandidates: "候選",
+  settingsTitle: "設定",
+  settingsLanguage: "語言",
+  settingsDataSource: "行程資料來源",
+  settingsClose: "關閉",
+
   day1Label: "Day 1 (六)",
   day2Label: "Day 2 (日)",
   day1Header: "Day 1 • 輕鬆走走與溫泉",
@@ -706,6 +717,11 @@ const LABELS_EN: UILabels = {
   tabExpenses: "Expenses",
   tabPrep: "Prep",
   tabCandidates: "List",
+  settingsTitle: "Settings",
+  settingsLanguage: "Language",
+  settingsDataSource: "Data Source",
+  settingsClose: "Close",
+  
   day1Label: "Day 1 (Sat)",
   day2Label: "Day 2 (Sun)",
   day1Header: "Day 1 • Relax & Hot Spring",
