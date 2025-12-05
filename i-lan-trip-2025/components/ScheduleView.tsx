@@ -149,6 +149,7 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
                 location: getVal('location'),
                 mapLink: getVal('mapLink'),
                 type: getVal('type') || 'default',
+                specialContent: getVal('specialcontent') || getVal('special_content') || undefined,
                 icon: IconComponent, 
                 description: getVal('description'),
             };
@@ -202,8 +203,15 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
   };
 
   useEffect(() => {
-    fetchSchedule();
-  }, []);
+    if (isConfigured) {
+        fetchSchedule();
+    } else {
+        // Load Static Data if no CSV configured
+        const d1 = data.day1.map(i => ({ ...i, day: '1' }));
+        const d2 = data.day2.map(i => ({ ...i, day: '2' }));
+        setScheduleItems([...d1, ...d2]);
+    }
+  }, [isConfigured, data]);
 
   // Filter items for view
   const currentDayItems = scheduleItems.filter(item => Number(item.day) === activeDay);
@@ -211,10 +219,10 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
   return (
     <div className="flex flex-col min-h-full">
       {/* Sub-tab Navigation */}
-      <div className="sticky top-[88px] z-20 bg-[#F2F2F2]/90 backdrop-blur-md shadow-sm border-b border-[#A9BF5A]/30 p-2 flex gap-2 justify-center">
+      <div className="sticky top-[60px] z-20 bg-[#F2F2F2]/90 backdrop-blur-md shadow-sm border-b border-[#A9BF5A]/30 p-2 flex gap-2 justify-center">
         <button
           onClick={() => setActiveDay(1)}
-          className={`flex-1 max-w-[120px] py-2 px-4 rounded-lg text-sm font-bold transition-all duration-200 ${
+          className={`flex-1 max-w-[120px] py-1.5 px-3 rounded-lg text-xs font-bold transition-all duration-200 ${
             activeDay === 1
               ? 'bg-[#3A591C] text-white shadow-sm'
               : 'bg-transparent text-[#678C30] hover:bg-white'
@@ -224,7 +232,7 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
         </button>
         <button
           onClick={() => setActiveDay(2)}
-          className={`flex-1 max-w-[120px] py-2 px-4 rounded-lg text-sm font-bold transition-all duration-200 ${
+          className={`flex-1 max-w-[120px] py-1.5 px-3 rounded-lg text-xs font-bold transition-all duration-200 ${
             activeDay === 2
               ? 'bg-[#3A591C] text-white shadow-sm'
               : 'bg-transparent text-[#678C30] hover:bg-white'
@@ -249,7 +257,7 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
                     </p>
                     {!isConfigured && (
                         <p className="text-xs text-slate-400 mb-4">
-                            請先在 Google Sheet 發佈為 CSV，<br/>並將連結貼上至 constants.tsx
+                            內建行程資料似乎未載入。<br/>請檢查程式碼或設定 CSV 來源。
                         </p>
                     )}
                     {isConfigured && (
@@ -263,7 +271,7 @@ const ScheduleView: React.FC<Props> = ({ data, labels }) => {
           <div>
             <div className="bg-[#A9BF5A]/20 p-2 text-center text-[#3A591C] text-xs font-bold border-b border-[#A9BF5A]/30 flex justify-center items-center gap-2">
                {activeDay === 1 ? labels.day1Header : labels.day2Header}
-               <button onClick={fetchSchedule} className="text-[#3A591C]/50 hover:text-[#3A591C]" title="重新讀取"><RefreshCw size={12}/></button>
+               {isConfigured && <button onClick={fetchSchedule} className="text-[#3A591C]/50 hover:text-[#3A591C]" title="重新讀取"><RefreshCw size={12}/></button>}
              </div>
             <DayView 
               schedule={currentDayItems} 
