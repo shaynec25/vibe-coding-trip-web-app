@@ -26,7 +26,7 @@ import { ScheduleItem, HikingGuideData, ChecklistCategory } from "./types";
 // 這些變數將由 GitHub Secrets 在打包時注入，或在本地開發時由 .env 檔案提供
 const env = (import.meta as any).env || {};
 export const GOOGLE_SCRIPT_URL = env.VITE_GOOGLE_SCRIPT_URL || ""; 
-export const SCHEDULE_CSV_URL = env.VITE_SCHEDULE_CSV_URL || "";
+export const SCHEDULE_CSV_URL = env.VITE_SCHEDULE_CSV_URL || "https://docs.google.com/spreadsheets/d/e/2PACX-1vTJNXk6dMtNNxWFxFYBL23Na02nVCCvTgexTEyMwt21CgWmZdL4QD7PhH-2xZIw4_RigheDC05-ye53/pub?gid=0&single=true&output=csv";
 export const CANDIDATES_CSV_URL = env.VITE_CANDIDATES_CSV_URL || ""; 
 
 // --- Types for Data Structure ---
@@ -139,26 +139,26 @@ const DAY_1_SCHEDULE_ZH: ScheduleItem[] = [
       {
         id: "A",
         title: "柯氏蔥油餅",
-        subtitle: "礁溪必吃",
+        subtitle: "",
         tags: ["排隊名店", "小吃"],
         description: ["步行或開車都方便，但人潮多。"],
-        mapLink: "https://maps.app.goo.gl/abcdefg"
+        mapLink: "https://maps.app.goo.gl/1W3fvzDJLSNs36ZC8"
       },
       {
         id: "B",
-        title: "里海 Café",
-        subtitle: "海鮮丼",
-        tags: ["需預約", "清爽"],
-        description: ["好吃、清爽、不膩", "很多人從台北專門來吃"],
-        recommended: true,
-        mapLink: "https://maps.app.goo.gl/hijklmn"
+        title: "白雲山鹿",
+        subtitle: "台式早餐店",
+        tags: ["早餐", "蛋餅"],
+        description: ["人氣台式早餐，蛋餅與油飯受歡迎"],
+        mapLink: "https://maps.app.goo.gl/GUDhN66Fqe9L6UyD7"
       },
       {
         id: "C",
-        title: "湯蒸火鍋",
-        subtitle: "CP值高",
-        tags: ["飽足感"],
-        description: ["適合四人一起吃得比較飽"]
+        title: "蘭揚蘆花雞餐廳",
+        subtitle: "台式合菜",
+        tags: ["烤雞"],
+        description: ["適合多人聚餐，招牌烤雞"],
+        mapLink: "https://maps.app.goo.gl/33MB2iKNqDM17eE87"
       }
     ]
   },
@@ -170,22 +170,16 @@ const DAY_1_SCHEDULE_ZH: ScheduleItem[] = [
     options: [
       {
         id: "A",
-        title: "幾米公園 + 宜蘭酒廠",
-        tags: ["拍照", "散步"],
-        description: ["幾米兔、大象彩繪裝置 → 走走拍拍", "酒廠可試飲、買伴手禮、逛逛展區"]
+        title: "宜蘭傳統藝術中心",
+        tags: ["手作", "拍照"],
+        description: ["手作體驗、懷舊街道，非常好拍"],
+        mapLink: "https://maps.app.goo.gl/ZWQb8e5DfSGkqyXm7"
       },
       {
         id: "B",
-        title: "宜蘭傳統藝術中心",
-        subtitle: "推薦四人同行",
-        tags: ["推薦", "手作", "拍照"],
-        description: [
-            "好拍、好逛，可待 1.5–2 小時",
-            "手作（藍染、木工、琉璃等）可以預約", 
-            "若喜歡拍照，這邊是最推薦的一站"
-        ],
-        recommended: true,
-        mapLink: "https://maps.app.goo.gl/opqrst"
+        title: "幾米公園 + 宜蘭酒廠",
+        tags: ["拍照", "散步"],
+        description: ["幾米兔、大象彩繪裝置 → 走走拍拍", "酒廠可試飲、買伴手禮、逛逛展區"]
       }
     ]
   },
@@ -216,25 +210,11 @@ const DAY_1_SCHEDULE_ZH: ScheduleItem[] = [
     options: [
       {
         id: "A",
-        title: "林北烤好",
-        subtitle: "知名居酒屋",
-        tags: ["務必預約", "氣氛佳"],
-        description: ["料理很好吃", "很適合四個人邊吃邊聊天"],
-        recommended: true
-      },
-      {
-        id: "B",
-        title: "山形閣拉麵",
-        subtitle: "日式拉麵",
-        tags: ["排隊店"],
-        description: ["乾淨舒服", "湯好喝、份量足"]
-      },
-      {
-        id: "C",
-        title: "興羅來炸雞",
-        subtitle: "在地小吃",
-        tags: ["高CP值", "外帶"],
-        description: ["外帶回民宿吃也方便"]
+        title: "空ㄟ農場",
+        subtitle: "夜景農場",
+        tags: ["夜景"],
+        description: ["需搭乘接駁車上山，披薩與夜景非常著名"],
+        mapLink: "https://maps.app.goo.gl/WAvEJF9xNMUdb8Nq6"
       }
     ]
   },
@@ -243,7 +223,7 @@ const DAY_1_SCHEDULE_ZH: ScheduleItem[] = [
     title: "泡湯 / 休息",
     icon: Waves,
     type: "rest",
-    description: "隔天要爬抹茶山，建議早休息。若想泡湯推薦：川湯春天（大眾/湯屋）或 山形閣湯屋。",
+    description: "隔天要爬抹茶山，建議早休息。"
   }
 ];
 
@@ -277,7 +257,25 @@ const DAY_2_SCHEDULE_ZH: ScheduleItem[] = [
     title: "午餐 (彈性)",
     icon: Utensils,
     type: "food",
-    description: "建議選項：清水地熱區附近、礁溪小吃 (柯氏蔥油餅 / 八寶冬粉) 或 海景咖啡廳。"
+    description: "建議選項：清水地熱區附近、礁溪小吃 (柯氏蔥油餅 / 八寶冬粉) 或 海景咖啡廳。",
+    options: [
+        {
+            id: "A",
+            title: "拾松辦桌小吃",
+            subtitle: "合菜",
+            tags: ["台式", "合菜"],
+            description: ["宜蘭特色手路菜，西魯肉、糕渣"],
+            mapLink: "https://maps.app.goo.gl/9XgKME1uLHLU6YBZ9"
+        },
+        {
+            id: "B",
+            title: "玉仁八寶冬粉",
+            subtitle: "在地名店",
+            tags: ["冬粉", "熱湯"],
+            description: ["礁溪必吃美食之一，湯頭鮮美"],
+            mapLink: "https://maps.app.goo.gl/qRvosmNQAva8LNg6A"
+        }
+    ]
   },
   {
     time: "17:00",
@@ -469,48 +467,46 @@ const DAY_1_SCHEDULE_EN: ScheduleItem[] = [
         title: "Ke's Scallion Pancake",
         subtitle: "Jiaoxi Must-Eat",
         tags: ["Famous", "Street Food"],
-        description: ["Walking or driving is convenient, but expect queues."]
+        description: ["Walking or driving is convenient, but expect queues."],
+        mapLink: "https://maps.app.goo.gl/1W3fvzDJLSNs36ZC8"
       },
       {
         id: "B",
-        title: "Satomi Café",
-        subtitle: "Seafood Don",
-        tags: ["Reservation Needed", "Fresh"],
-        description: ["Delicious, refreshing, not greasy.", "Many come from Taipei just for this."],
-        recommended: true
+        title: "White Cloud Deer",
+        subtitle: "Taiwanese Breakfast",
+        tags: ["Breakfast", "Omelet"],
+        description: ["Popular local spot, try the omelet and sticky rice."],
+        mapLink: "https://maps.app.goo.gl/GUDhN66Fqe9L6UyD7"
       },
       {
         id: "C",
-        title: "Tang Zheng Hotpot",
-        subtitle: "High CP Value",
-        tags: ["Filling"],
-        description: ["Good for 4 people to eat until full."]
+        title: "Lanyang Luhua Chicken",
+        subtitle: "Group Meal",
+        tags: ["Roast Chicken"],
+        description: ["Great for groups, famous for roast chicken."],
+        mapLink: "https://maps.app.goo.gl/33MB2iKNqDM17eE87"
       }
     ]
   },
   {
     time: "12:30",
-    title: "Afternoon Itinerary",
+    title: "Afternoon Activity",
     icon: MapPin,
     type: "activity",
     options: [
       {
         id: "A",
-        title: "Jimmy Park + Distillery",
-        tags: ["Photos", "Walk"],
-        description: ["Jimmy bunny & elephant art -> Sightseeing", "Distillery tasting & souvenirs"]
+        title: "NCFTA",
+        subtitle: "National Center for Traditional Arts",
+        tags: ["Crafts", "Photos"],
+        description: ["DIY crafts, old streets, great for photography."],
+        mapLink: "https://maps.app.goo.gl/ZWQb8e5DfSGkqyXm7"
       },
       {
         id: "B",
-        title: "Center for Traditional Arts",
-        subtitle: "Recommended for Groups",
-        tags: ["Recommended", "Crafts", "Photos"],
-        description: [
-            "Great for photos & walking, spend 1.5-2 hours.",
-            "DIY crafts (Indigo dyeing, woodworking, etc.) can be booked.", 
-            "Highly recommended if you like taking photos."
-        ],
-        recommended: true
+        title: "Jimmy Park + Distillery",
+        tags: ["Photos", "Walk"],
+        description: ["Jimmy bunny & elephant art -> Sightseeing", "Distillery tasting & souvenirs"]
       }
     ]
   },
@@ -537,29 +533,15 @@ const DAY_1_SCHEDULE_EN: ScheduleItem[] = [
     location: "Near Shiliujie Rd",
     icon: Utensils,
     type: "food",
-    description: "Accommodation is near city edge. Recommended parking-friendly options:",
+    description: "Accommodation is near city edge. Recommended:",
     options: [
       {
         id: "A",
-        title: "Lin Bei Grilled",
-        subtitle: "Izakaya",
-        tags: ["Book Ahead", "Atmosphere"],
-        description: ["Great food.", "Perfect for 4 people chatting."],
-        recommended: true
-      },
-      {
-        id: "B",
-        title: "Yamagata Kaku Ramen",
-        subtitle: "Japanese Ramen",
-        tags: ["Queues"],
-        description: ["Clean & Comfortable.", "Good soup & portions."]
-      },
-      {
-        id: "C",
-        title: "Xing Luo Lai Fried Chicken",
-        subtitle: "Local Snack",
-        tags: ["Value", "Takeout"],
-        description: ["Convenient takeout to eat at hostel."]
+        title: "Kong Ei Farm",
+        subtitle: "Night View",
+        tags: ["Night View", "Pizza"],
+        description: ["Shuttle required. Famous for pizza and night views."],
+        mapLink: "https://maps.app.goo.gl/WAvEJF9xNMUdb8Nq6"
       }
     ]
   },
@@ -568,7 +550,7 @@ const DAY_1_SCHEDULE_EN: ScheduleItem[] = [
     title: "Hot Spring / Rest",
     icon: Waves,
     type: "rest",
-    description: "Climbing Matcha Mountain tomorrow, rest early. Hot Spring recs: Chuang-Tang Spring or Yamagata Kaku.",
+    description: "Climbing Matcha Mountain tomorrow, rest early."
   }
 ];
 
@@ -602,7 +584,25 @@ const DAY_2_SCHEDULE_EN: ScheduleItem[] = [
     title: "Lunch (Flexible)",
     icon: Utensils,
     type: "food",
-    description: "Options: Near Qingshui Geothermal, Jiaoxi Snacks, or Seaview Cafe."
+    description: "Options: Near Qingshui Geothermal, Jiaoxi Snacks, or Seaview Cafe.",
+    options: [
+        {
+            id: "A",
+            title: "Shi Song Traditional Food",
+            subtitle: "Taiwanese",
+            tags: ["Table Dishes"],
+            description: ["Yilan specialties: Xilu meat, Gaozha."],
+            mapLink: "https://maps.app.goo.gl/9XgKME1uLHLU6YBZ9"
+        },
+        {
+            id: "B",
+            title: "Yu Ren Vermicelli",
+            subtitle: "Local Famous",
+            tags: ["Vermicelli", "Soup"],
+            description: ["Must-eat in Jiaoxi, delicious soup."],
+            mapLink: "https://maps.app.goo.gl/qRvosmNQAva8LNg6A"
+        }
+    ]
   },
   {
     time: "17:00",
