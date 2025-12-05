@@ -269,11 +269,11 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
 
   const getCategoryIcon = (cat?: string) => {
       switch(cat) {
-          case '食物': return <Utensils size={20} />;
-          case '購物': return <ShoppingBag size={20} />;
-          case '交通': return <Train size={20} />;
-          case '住宿': return <Home size={20} />;
-          default: return <CreditCard size={20} />;
+          case '食物': return <Utensils size={18} />;
+          case '購物': return <ShoppingBag size={18} />;
+          case '交通': return <Train size={18} />;
+          case '住宿': return <Home size={18} />;
+          default: return <CreditCard size={18} />;
       }
   };
 
@@ -282,7 +282,7 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
           <div className="p-8 text-center text-slate-500">
               <AlertCircle size={48} className="mx-auto mb-4 text-[#A9BF5A]" />
               <h3 className="text-lg font-bold mb-2">尚未設定 Google Sheet</h3>
-              <p className="text-sm">請在 constants.tsx 中填入您的 Google Apps Script URL。</p>
+              <p className="text-sm">請在環境中填入您的 URL。</p>
           </div>
       );
   }
@@ -290,7 +290,7 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
   // Initial Full Screen Loader
   if (isLoading && !hasLoaded) {
     return (
-      <div className="flex flex-col items-center justify-center h-[70vh] animate-fade-in space-y-6">
+      <div className="flex flex-col items-center justify-center h-[60vh] animate-fade-in space-y-6">
         <div className="relative">
            <div className="absolute inset-0 bg-[#A9BF5A]/30 blur-xl rounded-full"></div>
            <div className="bg-white p-6 rounded-3xl shadow-lg relative z-10">
@@ -306,29 +306,29 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
   }
 
   return (
-    <div className="pb-32 pt-4 px-4 animate-fade-in relative">
+    <div className="pb-24 pt-2 px-4 animate-fade-in relative">
       
       {/* Background Update Loading Overlay (Small) */}
       {isLoading && hasLoaded && !submitting && (
           <div className="fixed top-20 right-4 z-50">
              <div className="bg-black/70 text-white p-2 rounded-full shadow-lg animate-spin">
-                 <RefreshCw size={20} />
+                 <RefreshCw size={16} />
              </div>
           </div>
       )}
 
-      {/* Member Management */}
-      <div className="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 mb-6 flex items-center justify-between">
+      {/* Member Management - More Compact */}
+      <div className="bg-white p-2 rounded-xl shadow-sm border border-slate-100 mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar max-w-[70%]">
              <div className="bg-[#A9BF5A]/20 p-1.5 rounded-full text-[#3A591C] shrink-0">
-                 <Users size={16} />
+                 <Users size={14} />
              </div>
              {members.length === 0 ? (
-                 <span className="text-sm text-slate-400">尚未新增成員</span>
+                 <span className="text-xs text-slate-400">尚未新增成員</span>
              ) : (
                  <div className="flex -space-x-2">
                      {members.map((m) => (
-                         <div key={m} className="w-8 h-8 rounded-full bg-[#F2F2F2] border-2 border-white flex items-center justify-center text-xs font-bold text-[#678C30] shadow-sm relative group">
+                         <div key={m} className="w-7 h-7 rounded-full bg-[#F2F2F2] border-2 border-white flex items-center justify-center text-[10px] font-bold text-[#678C30] shadow-sm relative group">
                              {m.charAt(0)}
                              <button 
                                 onClick={() => handleRemoveMember(m)}
@@ -341,36 +341,36 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
                  </div>
              )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
               <input 
                   type="text" 
                   value={newMemberName}
                   onChange={(e) => setNewMemberName(e.target.value)}
                   placeholder="姓名"
-                  className="w-20 p-1.5 text-sm font-bold text-slate-800 bg-slate-50 rounded-lg outline-none focus:ring-1 focus:ring-[#A9BF5A]"
+                  className="w-16 p-1 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg outline-none focus:ring-1 focus:ring-[#A9BF5A]"
               />
-              <button onClick={handleAddMember} className="bg-[#A9BF5A] text-white p-1.5 rounded-lg hover:bg-[#678C30]">
-                  <UserPlus size={16} />
+              <button onClick={handleAddMember} className="bg-[#A9BF5A] text-white p-1 rounded-lg hover:bg-[#678C30]">
+                  <UserPlus size={14} />
               </button>
           </div>
       </div>
 
-      {/* Total Card */}
-      <div className="bg-[#3A591C] rounded-[2rem] p-8 mb-6 relative overflow-hidden text-white shadow-xl">
-        <div className="absolute top-0 right-0 w-40 h-40 bg-[#678C30] rounded-full -mt-10 -mr-10 opacity-50"></div>
+      {/* Total Card - Compact */}
+      <div className="bg-[#3A591C] rounded-[1.5rem] p-5 mb-4 relative overflow-hidden text-white shadow-lg">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[#678C30] rounded-full -mt-8 -mr-8 opacity-50"></div>
         <div className="relative z-10">
-          <div className="flex justify-between items-start mb-2">
-             <p className="text-[#A9BF5A] text-sm font-bold uppercase tracking-widest">Total Expenses</p>
+          <div className="flex justify-between items-start mb-1">
+             <p className="text-[#A9BF5A] text-[10px] font-bold uppercase tracking-widest">Total Expenses</p>
              <button onClick={fetchData} className="text-white/70 hover:text-white transition-colors">
-                <RefreshCw size={18} />
+                <RefreshCw size={14} />
              </button>
           </div>
-          <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-2xl font-light opacity-80">NT$</span>
-            <h2 className="text-5xl font-black tracking-tight">{totalTWD.toLocaleString()}</h2>
+          <div className="flex items-baseline gap-1 mb-1">
+            <span className="text-xl font-light opacity-80">NT$</span>
+            <h2 className="text-4xl font-black tracking-tight">{totalTWD.toLocaleString()}</h2>
           </div>
           <div className="flex items-center gap-2">
-             <span className="text-xs bg-white/20 px-3 py-1 rounded-full">
+             <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">
                {expenses.length} 筆紀錄
              </span>
           </div>
@@ -378,24 +378,24 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
       </div>
 
       {errorMsg && (
-          <div className="bg-red-50 text-red-500 text-sm p-3 rounded-xl mb-4 text-center">
+          <div className="bg-red-50 text-red-500 text-xs p-2 rounded-xl mb-4 text-center">
               {errorMsg}
           </div>
       )}
 
-      {/* View Toggle */}
-      <div className="bg-white p-1.5 rounded-2xl flex mb-6 border border-slate-100 shadow-sm">
+      {/* View Toggle - Compact */}
+      <div className="bg-white p-1 rounded-xl flex mb-4 border border-slate-100 shadow-sm">
         {['list', 'split'].map(mode => (
           <button 
             key={mode}
             onClick={() => setViewMode(mode as any)}
-            className={`flex-1 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+            className={`flex-1 py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1 transition-all ${
                 viewMode === mode 
                 ? 'bg-[#678C30] text-white shadow-md' 
                 : 'text-slate-500 hover:bg-slate-50'
             }`}
           >
-            {mode === 'list' ? <><List size={16} /> 消費明細</> : <><PieChart size={16} /> 拆帳計算</>}
+            {mode === 'list' ? <><List size={14} /> 消費明細</> : <><PieChart size={14} /> 拆帳計算</>}
           </button>
         ))}
       </div>
@@ -411,52 +411,52 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
                 }
                 setShowFormModal(true);
             }}
-            className="w-full bg-[#678C30] text-white py-5 rounded-[2rem] flex items-center justify-center gap-2 mb-8 shadow-lg active:scale-95 transition-transform"
+            className="w-full bg-[#678C30] text-white py-3 rounded-2xl flex items-center justify-center gap-2 mb-4 shadow-md active:scale-95 transition-transform text-sm font-bold"
           >
-            <Plus size={24} /> 記一筆
+            <Plus size={18} /> 記一筆
           </button>
           
-          <div className="space-y-4">
+          <div className="space-y-3">
             {expenses.length === 0 ? (
-              <div className="text-center py-16 bg-white rounded-[2.5rem] border border-slate-100">
-                <div className="inline-block p-4 bg-[#F2F2F2] rounded-full mb-4 text-[#A9BF5A]">
-                    <Table2 size={24} />
+              <div className="text-center py-10 bg-white rounded-2xl border border-slate-100">
+                <div className="inline-block p-3 bg-[#F2F2F2] rounded-full mb-2 text-[#A9BF5A]">
+                    <Table2 size={20} />
                 </div>
-                <p className="text-slate-400 font-bold">暫無資料</p>
+                <p className="text-slate-400 font-bold text-sm">暫無資料</p>
               </div>
             ) : (
               expenses.map((item) => (
-                <div key={item.id} className="bg-white p-5 rounded-[2rem] flex items-center justify-between border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-[#F2F2F2] text-[#678C30]">
+                <div key={item.id} className="bg-white p-3 rounded-2xl flex items-center justify-between border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#F2F2F2] text-[#678C30]">
                        {getCategoryIcon(item.category)}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="font-bold text-slate-800 text-lg">{item.title}</p> 
+                        <p className="font-bold text-slate-800 text-base">{item.title}</p> 
                         {item.splitWith && item.splitWith.length > 0 && item.splitWith.length < members.length && (
-                          <span className="text-[10px] bg-[#A9BF5A]/20 text-[#3A591C] px-2 py-0.5 rounded-md font-bold">
+                          <span className="text-[10px] bg-[#A9BF5A]/20 text-[#3A591C] px-1.5 py-0.5 rounded-md font-bold">
                             {item.splitWith.length}人分
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-md">
                             {item.payer} 先付
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-[10px] text-slate-400">
                             {new Date(item.date).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
-                    <p className="font-black text-slate-800 text-lg">${item.amount.toLocaleString()}</p>
+                  <div className="flex flex-col items-end gap-1">
+                    <p className="font-black text-slate-800 text-base">${item.amount.toLocaleString()}</p>
                     <button 
                         onClick={(e) => { e.stopPropagation(); handleDeleteExpense(item.id); }}
-                        className="p-1.5 rounded-lg text-slate-300 hover:text-red-400 hover:bg-red-50 transition-colors"
+                        className="p-1 rounded-lg text-slate-300 hover:text-red-400 hover:bg-red-50 transition-colors"
                     >
-                        <Trash2 size={16} />
+                        <Trash2 size={14} />
                     </button>
                   </div>
                 </div>
@@ -465,26 +465,26 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
           </div>
         </>
       ) : (
-        <div className="space-y-6">
-           <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
-            <h4 className="text-[#A9BF5A] text-xs font-bold uppercase tracking-widest mb-6">結算狀況 (台幣)</h4>
+        <div className="space-y-4">
+           <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
+            <h4 className="text-[#A9BF5A] text-[10px] font-bold uppercase tracking-widest mb-4">結算狀況 (台幣)</h4>
             
             {members.length === 0 ? (
-                <p className="text-center text-slate-400">請先新增成員以進行計算</p>
+                <p className="text-center text-slate-400 text-sm">請先新增成員以進行計算</p>
             ) : (
-                <div className="space-y-6">
+                <div className="space-y-4">
                 {splitData.debts.map((p, i) => (
                     <div key={i} className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white ${p.net >= 0 ? 'bg-[#F2E291] text-[#3A591C]' : 'bg-[#678C30]'}`}>
+                    <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white ${p.net >= 0 ? 'bg-[#F2E291] text-[#3A591C]' : 'bg-[#678C30]'}`}>
                             {p.name.charAt(0)}
                         </div>
                         <div>
-                        <p className="text-base font-bold text-slate-800">{p.name}</p>
-                        <p className="text-xs text-slate-400 font-medium">已墊付 ${p.paid.toLocaleString()}</p>
+                        <p className="text-sm font-bold text-slate-800">{p.name}</p>
+                        <p className="text-[10px] text-slate-400 font-medium">已墊付 ${p.paid.toLocaleString()}</p>
                         </div>
                     </div>
-                    <div className={`text-base font-black ${p.net >= 0 ? "text-[#678C30]" : "text-red-400"}`}>
+                    <div className={`text-sm font-black ${p.net >= 0 ? "text-[#678C30]" : "text-red-400"}`}>
                         {p.net >= 0 ? `收 ${Math.round(p.net).toLocaleString()}` : `付 ${Math.round(Math.abs(p.net)).toLocaleString()}`}
                     </div>
                     </div>
@@ -492,7 +492,7 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
                 </div>
             )}
           </div>
-          <p className="text-center text-xs text-slate-400 font-bold opacity-60">* 正數代表應收回，負數代表應支付。</p>
+          <p className="text-center text-[10px] text-slate-400 font-bold opacity-60">* 正數代表應收回，負數代表應支付。</p>
         </div>
       )}
 
@@ -500,23 +500,23 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
       {showFormModal && (
         <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center">
            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in" onClick={() => setShowFormModal(false)}></div>
-           <div className="bg-[#F2F2F2] w-full max-w-md rounded-t-[2.5rem] sm:rounded-[2.5rem] relative z-10 p-8 pb-10 animate-slide-up shadow-2xl h-[85vh] sm:h-auto overflow-y-auto">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-black text-2xl text-[#3A591C]">新增支出</h3>
-                <button onClick={() => setShowFormModal(false)} className="bg-white p-3 rounded-full text-slate-400 shadow-sm"><X size={20} /></button>
+           <div className="bg-[#F2F2F2] w-full max-w-md rounded-t-[2.5rem] sm:rounded-[2.5rem] relative z-10 p-6 pb-8 animate-slide-up shadow-2xl h-[85vh] sm:h-auto overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-black text-xl text-[#3A591C]">新增支出</h3>
+                <button onClick={() => setShowFormModal(false)} className="bg-white p-2 rounded-full text-slate-400 shadow-sm"><X size={18} /></button>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Amount Input */}
-                <div className="bg-white p-5 rounded-[2rem] border-2 border-transparent focus-within:border-[#A9BF5A] transition-colors shadow-sm">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">金額 (TWD)</label>
+                <div className="bg-white p-4 rounded-2xl border-2 border-transparent focus-within:border-[#A9BF5A] transition-colors shadow-sm">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">金額 (TWD)</label>
                   <div className="flex items-center gap-2">
-                    <span className="text-3xl text-slate-400 font-light">$</span>
+                    <span className="text-2xl text-slate-400 font-light">$</span>
                     <input 
                         type="number" 
                         value={formData.amount} 
                         onChange={(e) => setFormData({...formData, amount: e.target.value})} 
-                        className="w-full bg-transparent text-4xl font-black text-slate-800 outline-none placeholder-slate-200" 
+                        className="w-full bg-transparent text-3xl font-black text-slate-800 outline-none placeholder-slate-200" 
                         placeholder="0" 
                         required 
                         autoFocus
@@ -526,25 +526,25 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
 
                 {/* Item Name */}
                 <div>
-                  <label className="text-xs font-bold text-slate-500 ml-4 mb-2 block">項目名稱</label>
+                  <label className="text-[10px] font-bold text-slate-500 ml-4 mb-1 block">項目名稱</label>
                   <input 
                     type="text" 
                     value={formData.item} 
                     onChange={(e) => setFormData({...formData, item: e.target.value})} 
-                    className="w-full p-5 bg-white rounded-2xl outline-none font-bold text-slate-800 placeholder-slate-300 shadow-sm border border-transparent focus:border-[#A9BF5A]" 
+                    className="w-full p-4 bg-white rounded-xl outline-none font-bold text-slate-800 placeholder-slate-300 shadow-sm border border-transparent focus:border-[#A9BF5A]" 
                     placeholder="例如：晚餐、飲料" 
                     required 
                   />
                 </div>
                 
                 {/* Category & Payer */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                    <div>
-                    <label className="text-xs font-bold text-slate-500 ml-4 mb-2 block">分類</label>
+                    <label className="text-[10px] font-bold text-slate-500 ml-4 mb-1 block">分類</label>
                     <select 
                         value={formData.category} 
                         onChange={(e) => setFormData({...formData, category: e.target.value})} 
-                        className="w-full p-5 bg-white rounded-2xl outline-none font-bold text-slate-800 appearance-none shadow-sm"
+                        className="w-full p-4 bg-white rounded-xl outline-none font-bold text-slate-800 appearance-none shadow-sm text-sm"
                     >
                       <option value="食物">🍔 食物</option>
                       <option value="住宿">🏠 住宿</option>
@@ -554,11 +554,11 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
                     </select>
                    </div>
                    <div>
-                    <label className="text-xs font-bold text-slate-500 ml-4 mb-2 block">付款人</label>
+                    <label className="text-[10px] font-bold text-slate-500 ml-4 mb-1 block">付款人</label>
                     <select 
                         value={formData.payer} 
                         onChange={(e) => setFormData({...formData, payer: e.target.value})} 
-                        className="w-full p-5 bg-white rounded-2xl outline-none font-bold text-slate-800 appearance-none shadow-sm"
+                        className="w-full p-4 bg-white rounded-xl outline-none font-bold text-slate-800 appearance-none shadow-sm text-sm"
                     >
                       {members.map(m => <option key={m} value={m}>{m}</option>)}
                     </select>
@@ -567,12 +567,12 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
 
                 {/* Split Selection */}
                 <div>
-                  <div className="flex justify-between items-center mb-3 px-2">
-                    <label className="text-xs font-bold text-slate-500 block">分攤對象</label>
+                  <div className="flex justify-between items-center mb-2 px-2">
+                    <label className="text-[10px] font-bold text-slate-500 block">分攤對象</label>
                     <button 
                         type="button" 
                         onClick={handleSelectAll} 
-                        className="text-xs font-bold text-[#678C30] bg-[#678C30]/10 px-3 py-1 rounded-full hover:bg-[#678C30]/20 transition-colors"
+                        className="text-[10px] font-bold text-[#678C30] bg-[#678C30]/10 px-2 py-1 rounded-full hover:bg-[#678C30]/20 transition-colors"
                     >
                         {formData.splitWith.length === members.length ? '取消全選' : '全選'}
                     </button>
@@ -587,16 +587,16 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
                                 type="button"
                                 onClick={() => toggleSplitMember(m)}
                                 className={`
-                                    relative flex flex-col items-center justify-center py-3 rounded-xl transition-all duration-200
+                                    relative flex flex-col items-center justify-center py-2 rounded-lg transition-all duration-200
                                     ${isSelected 
                                         ? 'bg-[#678C30] text-white shadow-md font-bold' 
                                         : 'bg-white text-slate-400 border border-slate-100'}
                                 `}
                             >
-                                <span className="text-sm truncate w-full px-1">{m}</span>
+                                <span className="text-xs truncate w-full px-1">{m}</span>
                                 {isSelected && (
                                     <div className="absolute -top-1 -right-1 bg-[#F2E291] text-[#3A591C] rounded-full p-0.5 shadow-sm">
-                                        <Check size={10} strokeWidth={4} />
+                                        <Check size={8} strokeWidth={4} />
                                     </div>
                                 )}
                             </button>
@@ -608,7 +608,7 @@ const ExpenseView: React.FC<Props> = ({ labels }) => {
                 <button 
                     type="submit" 
                     disabled={submitting} 
-                    className="w-full bg-[#3A591C] text-white py-5 rounded-2xl text-lg font-bold mt-6 shadow-xl active:scale-95 transition-all"
+                    className="w-full bg-[#3A591C] text-white py-4 rounded-xl text-base font-bold mt-4 shadow-xl active:scale-95 transition-all"
                 >
                     {submitting ? '儲存中...' : '確認記帳'}
                 </button>
