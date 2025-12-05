@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ] # 或者是 master，看你的主分支名稱
+
+permissions:
+  contents: write # 允許 Action 推送代碼到 gh-pages 分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci # 或者 npm install
+
+      - name: Build
+        run: npm run build
+        env:
+          # 這裡將 GitHub Secrets 注入到打包環境中
+          # Vite 會讀取以 VITE_ 開頭的變數並寫入打包後的 JS 檔案
+          VITE_GOOGLE_SCRIPT_URL: ${{ secrets.VITE_GOOGLE_SCRIPT_URL }}
+          VITE_SCHEDULE_CSV_URL: ${{ secrets.VITE_SCHEDULE_CSV_URL }}
+          VITE_CANDIDATES_CSV_URL: ${{ secrets.VITE_CANDIDATES_CSV_URL }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # Vite 預設打包輸出目錄是 dist
