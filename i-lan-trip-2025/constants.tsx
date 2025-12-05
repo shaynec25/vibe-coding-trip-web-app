@@ -310,18 +310,18 @@ const HIKING_GUIDE_ZH: HikingGuideData = {
   prepList: [], // Now handled by checklist data mostly, but kept for legacy if needed
   stats: {
     upTime: "3.5 小時",
-    restTime: "40 分鐘",
+    restTime: "50 分鐘",
     downTime: "3 小時",
     totalTime: "6~7 小時"
   },
   milestones: [
-    { time: "06:30", event: "五峰旗停車場 出發" },
-    { time: "06:45", event: "抵達 天母教堂" },
-    { time: "07:45", event: "抵達 通天橋", note: "聖母山莊登山口" },
-    { time: "09:00", event: "抵達 聖母山莊", note: "大休 54 分鐘 + 拍照" },
-    { time: "10:38", event: "回到 通天橋登山口" },
-    { time: "11:10", event: "回到 天母教堂", note: "小休 10 分鐘" },
-    { time: "11:40", event: "回到 五峰旗停車場", note: "行程結束" },
+    { time: "06:40", event: "五峰旗停車場 出發" },
+    { time: "07:00", event: "抵達 天母教堂" },
+    { time: "08:15", event: "抵達 通天橋", note: "聖母山莊登山口" },
+    { time: "10:00", event: "抵達 聖母山莊", note: "大休 54 分鐘 + 拍照" },
+    { time: "12:00", event: "回到 通天橋登山口" },
+    { time: "12:30", event: "回到 天母教堂", note: "小休 10 分鐘" },
+    { time: "13:50", event: "回到 五峰旗停車場", note: "行程結束" },
   ]
 };
 
@@ -642,18 +642,18 @@ const HIKING_GUIDE_EN: HikingGuideData = {
   prepList: [],
   stats: {
     upTime: "3.5 Hours",
-    restTime: "40 Mins",
+    restTime: "50 Mins",
     downTime: "3 Hours",
     totalTime: "6~7 Hours"
   },
   milestones: [
-    { time: "06:30", event: "Depart Wufengqi Parking" },
-    { time: "06:45", event: "Arrive Catholic Church" },
-    { time: "07:45", event: "Arrive Tongtian Bridge", note: "Trail Start" },
-    { time: "09:00", event: "Arrive Summit", note: "Rest 54m + Photos" },
-    { time: "10:38", event: "Back to Tongtian Bridge" },
-    { time: "11:10", event: "Back to Church", note: "Rest 10m" },
-    { time: "11:40", event: "Back to Parking", note: "End" },
+    { time: "06:40", event: "Depart Wufengqi Parking" },
+    { time: "07:00", event: "Arrive Catholic Church" },
+    { time: "08:15", event: "Arrive Tongtian Bridge", note: "Trail Start" },
+    { time: "10:00", event: "Arrive Summit", note: "Rest + Photos" },
+    { time: "12:00", event: "Back to Tongtian Bridge" },
+    { time: "12:30", event: "Back to Church" },
+    { time: "13:50", event: "Back to Parking", note: "End" },
   ]
 };
 
